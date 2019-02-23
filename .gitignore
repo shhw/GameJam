@@ -7,3 +7,5 @@ WanderingEarth/Packages/
 #
 *.csproj
 *.sln
+./WanderingEarth/ProjectSettings/ProjectVersion.txt
+*.meta
