@@ -12,11 +12,12 @@ namespace WanderingEarth
     /// </summary>
     class SceneManager : BaseManager<SceneManager>
     {
-        public GameObject earthObject;
-        public EarthEntity earthEntity;
+        private GameObject earthObject;
+        private EarthEntity earthEntity;
 
         public override void Init()
         {
+            
         }
 
         public override void Final()
@@ -25,6 +26,8 @@ namespace WanderingEarth
 
         public EarthEntity GetEarthEntity()
         {
+            if (earthEntity == null)
+                earthEntity = GameObject.Find("EarthObject").GetComponent<EarthEntity>();
             return earthEntity;
         }
     }
