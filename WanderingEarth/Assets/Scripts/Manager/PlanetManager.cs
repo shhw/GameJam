@@ -37,8 +37,7 @@ namespace WanderingEarth
 
         public override void Final()
         {
-            foreach (GameObject planet in planets)
-                Destroy(planet);
+            
         }
 
         public Vector2 GetPlanetsForce(Vector2 earthPos, float earthMass)
