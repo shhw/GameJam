@@ -10,16 +10,18 @@ namespace WanderingEarth
     /// <summary>
     /// 地球 Entity。
     /// </summary>
-    [RequireComponent(typeof(Rigidbody2D), typeof(SpriteRenderer))]
+    [RequireComponent(typeof(Rigidbody2D), typeof(SpriteRenderer), typeof(CircleCollider2D))]
     class EarthEntity : BaseEntity
     {
         public float BaseSpeed = 1.0f;
 
         public float AccForce = 1.0f;
 
-        public Vector2 SideDirection;
+        [Range(0.0f, 1.5707963f)]
+        public float SideDirectionRadius = 0.1f;
 
-        float CurForce = 0.0f;
+        Vector2[] vecSideDirection = new Vector2[2];
+
         Rigidbody2D thisRb2D;
 
         public enum ForceType
@@ -31,6 +33,7 @@ namespace WanderingEarth
 
         struct AccForceParams
         {
+            public bool bAdd;
             public float CurForce;
             public float TargetForce;
         }
@@ -39,7 +42,6 @@ namespace WanderingEarth
 
         void Awake()
         {
-            SideDirection.Normalize();
             thisRb2D = GetComponent<Rigidbody2D>();
             thisRb2D.velocity = Vector2.up * BaseSpeed;
         }
@@ -51,10 +53,30 @@ namespace WanderingEarth
 
         void Update()
         {
+            for (int n = 0; n < 3; n++)
+            {
+                ForceState[n].CurForce = Mathf.Lerp(ForceState[n].CurForce, ForceState[n].TargetForce, Time.deltaTime);
+            }
+            if (ForceState[1].bAdd)
+            {
+                Vector2 sideDir = Utility.Vector2Rotate(transform.up, SideDirectionRadius);
+                sideDir.Normalize();
+                thisRb2D.AddForce(sideDir * ForceState[1].CurForce);
+            }
+            else if (ForceState[2].bAdd)
+            {
+                Vector2 psideDir = Utility.Vector2Rotate(transform.up, -SideDirectionRadius);
+                psideDir.Normalize();
+                thisRb2D.AddForce(psideDir * ForceState[2].CurForce);
+            }
+            else if (ForceState[0].bAdd)
+            {
+                thisRb2D.AddForce(new Vector2(this.transform.up.x, this.transform.up.y) * ForceState[0].CurForce);
+            }
+            else
             {
                 Vector2 v = thisRb2D.velocity;
                 v.Normalize();
-                CurForce = Mathf.Lerp(CurForce, 0, Time.deltaTime);
                 thisRb2D.velocity = Vector2.Lerp(thisRb2D.velocity, v * BaseSpeed, Time.deltaTime);
             }
 
@@ -68,54 +90,48 @@ namespace WanderingEarth
             return new Vector2(transform.position.x, transform.position.y);
         }
 
-        void OnAddSideForce(ForceType eType)
-        {
-            Vector2 sideDir = SideDirection - Vector2.right;
-            sideDir = new Vector2(this.transform.right.x, this.transform.right.y) + sideDir;
-            if (eType == ForceType.eLeft)
-            {
-                thisRb2D.AddForce(sideDir * new Vector2(-1, 1) * CurForce);
-            }
-            else if (eType == ForceType.eRight)
-            {
-                thisRb2D.AddForce(sideDir * 1 * CurForce);
-            }
-            else if (eType == ForceType.eForward)
-            {
-                thisRb2D.AddForce(new Vector2(this.transform.forward.x,
-                    this.transform.forward.y)
-                    * CurForce);
-            }
-        }
-
-
         public void OnAddLeftForce()
         {
-            ForceState[1].CurForce = Mathf.Lerp(ForceState[1].CurForce, ForceState[1].TargetForce, Time.deltaTime);
-
+            ForceState[1].bAdd = true;
+            ForceState[1].TargetForce = AccForce;
         }
         public void OnCancelLeftForce()
         {
-
+            ForceState[1].bAdd = false;
+            ForceState[1].TargetForce = 0;
         }
 
         public void OnAddRightForce()
         {
-
+            ForceState[2].bAdd = true;
+            ForceState[2].TargetForce = AccForce;
         }
         public void OnCancelRightForce()
         {
-
+            ForceState[2].bAdd = false;
+            ForceState[2].TargetForce = 0;
         }
 
         public void OnAddForwardForce()
         {
-
+            ForceState[0].bAdd = true;
+            ForceState[0].TargetForce = AccForce;
         }
         public void OnCancelForwardForce()
         {
-
+            ForceState[0].bAdd = false;
+            ForceState[0].TargetForce = 0;
         }
 
+        void OnDrawGizmos()
+        {
+            Vector2 sideDir = Utility.Vector2Rotate(transform.up, SideDirectionRadius);
+            sideDir.Normalize();
+            Vector2 psideDir = Utility.Vector2Rotate(transform.up, -SideDirectionRadius);
+            psideDir.Normalize();
+
+            Debug.DrawLine(transform.position, transform.position + new Vector3(psideDir.x, psideDir.y, 0));
+            Debug.DrawLine(transform.position, transform.position + new Vector3(sideDir.x, sideDir.y, 0));
+        }
     }
 }

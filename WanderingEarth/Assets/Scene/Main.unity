@@ -1309,6 +1309,7 @@ GameObject:
   - component: {fileID: 1415507797}
   - component: {fileID: 1415507798}
   - component: {fileID: 1415507799}
+  - component: {fileID: 1415507800}
   m_Layer: 0
   m_Name: GameCore
   m_TagString: Untagged
@@ -1356,6 +1357,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   earthObject: {fileID: 2102051692}
   earthEntity: {fileID: 2102051694}
+--- !u!114 &1415507800
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1415507796}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1dc3eaa896e32a144aa14048f2b673aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  planetNode: {fileID: 107314740}
+  orgPlanet: {fileID: 175919355}
+  planets: []
+  planetsPool: []
+  planetCount: 5
+  maxMass: 100
+  minMass: 5
+  maxRho: 1
+  minRho: 0.05
 --- !u!1 &1499629373
 GameObject:
   m_ObjectHideFlags: 0
