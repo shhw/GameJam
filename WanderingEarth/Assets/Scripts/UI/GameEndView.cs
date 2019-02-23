@@ -14,7 +14,7 @@ namespace WanderingEarth
         protected override void Start()
         {
             Init(gameObject);
-            RegisterButtonClick(gameObject, OnClick);
+            RegisterButtonClick(UnityEngine.GameObject.Find("BtnRestart"), OnClick);
         }
 
         void OnClick(UnityEngine.GameObject obj)
