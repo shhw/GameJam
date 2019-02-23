@@ -1,0 +1,9 @@
+# Dirs
+WanderingEarth/Logs/
+WanderingEarth/Temp/
+WanderingEarth/Library/
+WanderingEarth/Packages/
+
+#
+*.csproj
+*.sln
