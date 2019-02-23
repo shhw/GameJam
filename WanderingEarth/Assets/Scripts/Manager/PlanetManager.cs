@@ -17,7 +17,7 @@ namespace WanderingEarth
         public int planetCount=9;
         public float maxMass = 30;
         public float minMass = 5;
-        public float maxRho = 0.1f;
+        public float maxRho = 0.06f;
         public float minRho = 0.05f;
 
         public override void Init()
