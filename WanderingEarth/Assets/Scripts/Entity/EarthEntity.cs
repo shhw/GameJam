@@ -17,6 +17,7 @@ namespace WanderingEarth
         public float MaxSpeed = 10.0f;
         public float AccForce = 1.0f;
 
+
         [Range(0.0f, 1.5707963f)]
         public float SideDirectionRadius = 0.1f;
 
@@ -153,6 +154,12 @@ namespace WanderingEarth
 
             Debug.DrawLine(transform.position, transform.position + new Vector3(psideDir.x, psideDir.y, 0));
             Debug.DrawLine(transform.position, transform.position + new Vector3(sideDir.x, sideDir.y, 0));
+        }
+
+        void OnTriggerEnter2D(Collider2D other)
+        {
+            if (other.tag == "planet")
+                gameObject.SetActive(false);
         }
     }
 }
