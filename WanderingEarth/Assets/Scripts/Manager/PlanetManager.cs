@@ -15,6 +15,10 @@ namespace WanderingEarth
         public List<GameObject> planets;
         public List<GameObject> planetsPool;
         public int planetCount=5;
+        public float maxMass = 100;
+        public float minMass = 5;
+        public float maxRho = 1.0f;
+        public float minRho = 0.05f;
 
         public override void Init()
         {
@@ -54,6 +58,11 @@ namespace WanderingEarth
             planetsPool.RemoveAt(index);
             planet.SetActive(true);
             planet.transform.position = new Vector3(pos.x, pos.y, 0);
+            float mass= UnityEngine.Random.Range(minMass, maxMass);
+            float rho= UnityEngine.Random.Range(minRho, maxRho);
+            float scale = rho * mass;
+            planet.transform.localScale = new Vector3(scale, scale, scale);
+            planet.GetComponent<Rigidbody>().mass = mass;
             planets.Add(planet);
         }
 
