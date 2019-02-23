@@ -117,9 +117,9 @@ namespace WanderingEarth
             _yMin = ((_centerY - (int)_halfLength) < MIN_Y) ? MIN_Y : (_centerY - (int)_halfLength);
             _yMax = ((_centerY + (int)_halfLength) > MAX_Y) ? MAX_Y : (_centerY + (int)_halfLength);
 
-            for (int x = _xMin; x < _xMax; x++)
+            for (int x = _xMin; x <= _xMax; x++)
             {
-                for (int y = _yMin; y < _yMax; y++)
+                for (int y = _yMin; y <= _yMax; y++)
                 {
                     if (InArea(x, y) && x % 14 == 0 && y % 14 == 0)
                     {
