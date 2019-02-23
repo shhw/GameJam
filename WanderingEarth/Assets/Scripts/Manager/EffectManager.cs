@@ -9,7 +9,14 @@ namespace WanderingEarth
     /// <summary>
     /// 特效 Manager。
     /// </summary>
-    class EffectManager : BaseManager
+    class EffectManager : BaseManager<EffectManager>
     {
+        public override void Init()
+        {
+        }
+
+        public override void Final()
+        {
+        }
     }
 }

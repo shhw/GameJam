@@ -9,7 +9,14 @@ namespace WanderingEarth
     /// <summary>
     /// 道具 Manager。
     /// </summary>
-    class ItemManager : BaseManager
+    class ItemManager : BaseManager<ItemManager>
     {
+        public override void Init()
+        {
+        }
+
+        public override void Final()
+        {
+        }
     }
 }

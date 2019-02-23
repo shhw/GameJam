@@ -9,7 +9,14 @@ namespace WanderingEarth
     /// <summary>
     /// UI Manager。
     /// </summary>
-    class UIManager : BaseManager
+    class UIManager : BaseManager<UIManager>
     {
+        public override void Init()
+        {
+        }
+
+        public override void Final()
+        {
+        }
     }
 }
