@@ -232,30 +232,6 @@ namespace WanderingEarth
             return list;
         }
 
-        protected GameObject GetItem(GameObject obj, string name)
-        {
-            if (obj == null || string.IsNullOrEmpty(name))
-            {
-                Debug.LogError("Failed to get " + name);
-                return null;
-            }
-            Transform[] trans = obj.GetComponentsInChildren<Transform>(true);
-            if (trans == null)
-            {
-                Debug.LogError("Find nothing in the child!!!");
-                return null;
-            }
-            int len = trans.Length;
-            for (int i = 0; i < len; ++i)
-            {
-                if (trans[i].gameObject.name == name)
-                {
-                    return trans[i].gameObject;
-                }
-            }
-            return null;
-        }
-
         protected GameObject GetItem(string itemName)
         {
             List<GameObject> list = GetAllItem(itemName);
