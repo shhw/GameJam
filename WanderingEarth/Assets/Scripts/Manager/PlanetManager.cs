@@ -64,9 +64,13 @@ namespace WanderingEarth
             planet.transform.position = new Vector3(pos.x, pos.y, 0);
             float mass= UnityEngine.Random.Range(minMass, maxMass);
             float rho= UnityEngine.Random.Range(minRho, maxRho);
+            int picture= UnityEngine.Random.Range(1, 10);
+            string picturePath = "Picture/planet/" + picture.ToString();
             float scale = rho * mass;
             planet.transform.localScale = new Vector3(scale, scale, scale);
             planet.GetComponent<Rigidbody>().mass = mass;
+            Sprite texture = Resources.Load<Sprite>(picturePath);
+            planet.GetComponent<SpriteRenderer>().sprite = texture;
             planets.Add(planet);
         }
 

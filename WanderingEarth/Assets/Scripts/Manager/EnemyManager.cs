@@ -13,6 +13,7 @@ namespace WanderingEarth
     {
         public override void Init()
         {
+
         }
 
         public override void Final()
