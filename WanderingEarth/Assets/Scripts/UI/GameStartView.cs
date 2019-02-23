@@ -20,6 +20,7 @@ namespace WanderingEarth
 
         void OnClick(UnityEngine.GameObject obj)
         {
+            SceneManager.GetInstance().InitScene();
             UIManager.GetInstance().Show("Page_GameHUD");
         }
 
