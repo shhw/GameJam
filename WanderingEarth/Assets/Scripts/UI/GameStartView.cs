@@ -11,9 +11,17 @@ namespace WanderingEarth
     /// </summary>
     class GameStartView : BaseUI
     {
-        public override void Init(object param)
+        
+        protected override void Start()
         {
-            base.Init(param);
+            Init(gameObject);
+            RegisterButtonClick(gameObject, OnClick);
         }
+
+        void OnClick(UnityEngine.GameObject obj)
+        {
+            UIManager.GetInstance().Show("Page_GameHUD");
+        }
+
     }
 }

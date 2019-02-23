@@ -11,5 +11,15 @@ namespace WanderingEarth
     /// </summary>
     class GameEndView : BaseUI
     {
+        protected override void Start()
+        {
+            Init(gameObject);
+            RegisterButtonClick(gameObject, OnClick);
+        }
+
+        void OnClick(UnityEngine.GameObject obj)
+        {
+            UIManager.GetInstance().Show("Page_GameHUD");
+        }
     }
 }
