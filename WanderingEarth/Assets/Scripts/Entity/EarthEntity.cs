@@ -14,7 +14,7 @@ namespace WanderingEarth
     class EarthEntity : BaseEntity
     {
         public float BaseSpeed = 1.0f;
-
+        public float MaxSpeed = 10.0f;
         public float AccForce = 1.0f;
 
         [Range(0.0f, 1.5707963f)]
@@ -50,7 +50,10 @@ namespace WanderingEarth
 
         void Start()
         {
+            PlanetManager.GetInstance().ShowPlanet(GetPosition() + new Vector2(100, 300));
             LastPos = transform.position;
+
+            PlanetManager.GetInstance().ShowPlanet(new Vector2(10, 20));
         }
 
         void Update()
@@ -87,6 +90,15 @@ namespace WanderingEarth
             //获取引力
             Vector2 force = PlanetManager.GetInstance().GetPlanetsForce(curPos, thisRb2D.mass);
             thisRb2D.AddForce(force);
+
+            force.Normalize();
+            Debug.DrawLine(transform.position, transform.position + new Vector3(force.x, force.y));
+
+            Vector2 vec = thisRb2D.velocity;
+            vec.Normalize();
+            vec *= MaxSpeed;
+            if (thisRb2D.velocity.magnitude > MaxSpeed)
+                thisRb2D.velocity = vec;
         }
 
         public Vector2 GetPosition()
