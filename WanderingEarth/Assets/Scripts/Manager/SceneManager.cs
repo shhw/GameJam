@@ -22,6 +22,12 @@ namespace WanderingEarth
 
         public override void Final()
         {
+
+        }
+
+        public void InitScene()
+        {
+
         }
 
         public EarthEntity GetEarthEntity()

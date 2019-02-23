@@ -25,7 +25,7 @@ namespace WanderingEarth
             planets = new List<GameObject>();
             planetsPool = new List<GameObject>();
             GameObject planetNode=GameObject.Find("PlanetNodes");
-            GameObject orgPlanet=(GameObject)Resources.Load("planet/planet");
+            GameObject orgPlanet=Resources.Load<GameObject>("Prefabs/planet/planet");
             for (int i=0;i<planetCount;++i)
             {
                 GameObject planet = Instantiate(orgPlanet);
