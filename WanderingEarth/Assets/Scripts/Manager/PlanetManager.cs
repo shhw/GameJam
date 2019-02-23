@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
 namespace WanderingEarth
 {
@@ -11,12 +12,63 @@ namespace WanderingEarth
     /// </summary>
     class PlanetManager : BaseManager<PlanetManager>
     {
+        public List<GameObject> planets;
+        public List<GameObject> planetsPool;
+        public int planetCount=5;
+
         public override void Init()
         {
+            planets = new List<GameObject>();
+            planetsPool = new List<GameObject>();
+            GameObject obj = GameObject.Find("PlanetNodes");
+            for (int i=0;i<planetCount;++i)
+            {
+                GameObject planet = Instantiate(obj);
+                planet.SetActive(false);
+                planetsPool.Add(planet);
+            }
         }
 
         public override void Final()
         {
+            foreach (GameObject planet in planets)
+                Destroy(planet);
+        }
+
+        public Vector2 GetPlanetsForce(Vector2 earthPos, float earthMass)
+        {
+            Vector2 force = new Vector2(0, 0);
+            foreach (GameObject planet in planets)
+            {
+                Vector2 distanceVector = new Vector2(planet.transform.position.x, planet.transform.position.y) - earthPos;
+                force += Utility.GetAttractiveForce(distanceVector, earthMass, planet.GetComponent<Rigidbody>().mass);
+            }
+            return force;
+        }
+
+        public void ShowPlanet(Vector2 pos)
+        {
+            int length = planetsPool.Count();
+            int index = UnityEngine.Random.Range(0, length);
+            GameObject planet = planetsPool[index];
+            planetsPool.RemoveAt(index);
+            planet.SetActive(true);
+            planet.transform.position = new Vector3(pos.x, pos.y, 0);
+            planets.Add(planet);
+        }
+
+        public void HidePlanet(GameObject planet)
+        {
+            for(int i=0;i<planets.Count();++i)
+            {
+                if(planets[i]==planet)
+                {
+                    planet.SetActive(false);
+                    planets.RemoveAt(i);
+                    break;
+                }
+            }
+            planetsPool.Add(planet);
         }
     }
 }

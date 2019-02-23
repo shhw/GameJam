@@ -11,5 +11,6 @@ namespace WanderingEarth
     /// </summary>
     class PlanetEntity : BaseEntity
     {
+
     }
 }
