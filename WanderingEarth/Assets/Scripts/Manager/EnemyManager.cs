@@ -9,7 +9,14 @@ namespace WanderingEarth
     /// <summary>
     /// 敌人 Manager。
     /// </summary>
-    class EnemyManager : BaseManager
+    class EnemyManager : BaseManager<EffectManager>
     {
+        public override void Init()
+        {
+        }
+
+        public override void Final()
+        {
+        }
     }
 }

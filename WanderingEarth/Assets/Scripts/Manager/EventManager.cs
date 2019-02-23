@@ -9,7 +9,14 @@ namespace WanderingEarth
     /// <summary>
     /// 事件 Manager。
     /// </summary>
-    class EventManager : BaseManager
+    class EventManager : BaseManager<EffectManager>
     {
+        public override void Init()
+        {
+        }
+
+        public override void Final()
+        {
+        }
     }
 }

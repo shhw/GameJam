@@ -9,7 +9,14 @@ namespace WanderingEarth
     /// <summary>
     /// IO Manager。
     /// </summary>
-    class ControlManager : BaseManager
+    class ControlManager : BaseManager<ControlManager>
     {
+        public override void Init()
+        {
+        }
+
+        public override void Final()
+        {
+        }
     }
 }

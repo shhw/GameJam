@@ -9,7 +9,14 @@ namespace WanderingEarth
     /// <summary>
     /// 音频 Manager。
     /// </summary>
-    class AudioManager : BaseManager
+    class AudioManager : BaseManager<AudioManager>
     {
+        public override void Init()
+        {
+        }
+
+        public override void Final()
+        {
+        }
     }
 }

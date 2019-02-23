@@ -9,7 +9,14 @@ namespace WanderingEarth
     /// <summary>
     /// 场景 Manager。
     /// </summary>
-    class SceneManager : BaseManager
+    class SceneManager : BaseManager<SceneManager>
     {
+        public override void Init()
+        {
+        }
+
+        public override void Final()
+        {
+        }
     }
 }
