@@ -13,19 +13,11 @@ namespace WanderingEarth
         {
 
             float m_forceCoefficient = 0;
-
             Vector2 m_attractiveForce;
-
             Vector2 forceDirection = distanceVector.normalized;    //引力方向
-
             float sqrDistance = distanceVector.sqrMagnitude;
-
-
-
             m_forceCoefficient = K * earthMass * planetMass;
-
             m_attractiveForce = m_forceCoefficient / sqrDistance * forceDirection;
-
             return m_attractiveForce;
         }
 

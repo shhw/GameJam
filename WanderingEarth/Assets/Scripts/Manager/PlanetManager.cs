@@ -14,25 +14,27 @@ namespace WanderingEarth
     {
         public List<GameObject> planets;
         public List<GameObject> planetsPool;
-        public int planetCount=5;
-        public float maxMass = 100;
+        public int planetCount=9;
+        public float maxMass = 30;
         public float minMass = 5;
-        public float maxRho = 1.0f;
+        public float maxRho = 0.1f;
         public float minRho = 0.05f;
 
         public override void Init()
         {
             planets = new List<GameObject>();
             planetsPool = new List<GameObject>();
-            GameObject planetNode=GameObject.Find("PlanetNodes");
-            GameObject orgPlanet=Resources.Load<GameObject>("Prefabs/planet/planet");
+            GameObject planetNode=GameObject.Find("PlanetNodes"); 
             for (int i=0;i<planetCount;++i)
             {
+                string objPath = "Prefabs/planet/" + (i+1).ToString();
+                GameObject orgPlanet = Resources.Load<GameObject>(objPath);
                 GameObject planet = Instantiate(orgPlanet);
                 planet.transform.parent = planetNode.transform;
                 planet.SetActive(false);
                 planetsPool.Add(planet);
             }
+            ShowPlanet(new Vector2(20, 20));
         }
 
         public override void Final()
@@ -49,7 +51,7 @@ namespace WanderingEarth
             foreach (GameObject planet in planets)
             {
                 Vector2 distanceVector = new Vector2(planet.transform.position.x, planet.transform.position.y) - earthPos;
-                force += Utility.GetAttractiveForce(distanceVector, earthMass, planet.GetComponent<Rigidbody>().mass);
+                force += Utility.GetAttractiveForce(distanceVector, earthMass, planet.GetComponent<Rigidbody2D>().mass);
             }
             return force;
         }
@@ -64,13 +66,11 @@ namespace WanderingEarth
             planet.transform.position = new Vector3(pos.x, pos.y, 0);
             float mass= UnityEngine.Random.Range(minMass, maxMass);
             float rho= UnityEngine.Random.Range(minRho, maxRho);
-            int picture= UnityEngine.Random.Range(1, 10);
+            int picture= UnityEngine.Random.Range(1, 11);
             string picturePath = "Picture/planet/" + picture.ToString();
             float scale = rho * mass;
             planet.transform.localScale = new Vector3(scale, scale, scale);
-            planet.GetComponent<Rigidbody>().mass = mass;
-            Sprite texture = Resources.Load<Sprite>(picturePath);
-            planet.GetComponent<SpriteRenderer>().sprite = texture;
+            planet.GetComponent<Rigidbody2D>().mass = mass;
             planets.Add(planet);
         }
 
