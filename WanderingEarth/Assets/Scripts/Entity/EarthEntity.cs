@@ -23,6 +23,8 @@ namespace WanderingEarth
         Vector2[] vecSideDirection = new Vector2[2];
 
         Rigidbody2D thisRb2D;
+        float Distance = 0.0f;
+        Vector2 LastPos;
 
         public enum ForceType
         {
@@ -48,7 +50,7 @@ namespace WanderingEarth
 
         void Start()
         {
-
+            LastPos = transform.position;
         }
 
         void Update()
@@ -80,9 +82,11 @@ namespace WanderingEarth
                 thisRb2D.velocity = Vector2.Lerp(thisRb2D.velocity, v * BaseSpeed, Time.deltaTime);
             }
 
+            Vector2 curPos = transform.position;
+            Distance += (curPos - LastPos).magnitude;
             //获取引力
-            //PlanetManager.GetInstance().
-            // thisRb2D.AddForce(force)
+            Vector2 force = PlanetManager.GetInstance().GetPlanetsForce(curPos, thisRb2D.mass);
+            thisRb2D.AddForce(force);
         }
 
         public Vector2 GetPosition()
@@ -121,6 +125,11 @@ namespace WanderingEarth
         {
             ForceState[0].bAdd = false;
             ForceState[0].TargetForce = 0;
+        }
+
+        public float GetTravelDistance()
+        {
+            return Distance;
         }
 
         void OnDrawGizmos()
