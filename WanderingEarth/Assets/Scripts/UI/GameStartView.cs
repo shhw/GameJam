@@ -11,5 +11,9 @@ namespace WanderingEarth
     /// </summary>
     class GameStartView : BaseUI
     {
+        public override void Init(object param)
+        {
+            base.Init(param);
+        }
     }
 }

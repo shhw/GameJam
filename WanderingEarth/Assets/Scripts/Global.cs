@@ -25,7 +25,7 @@ namespace WanderingEarth
 #endif
                 return;
             }
-            //EventTriggerClick.Register(obj, func, isIgnoreDrag);
+            EventTriggerClick.Register(obj, func, isIgnoreDrag);
         }
 
         public static T GetComponent<T>(GameObject obj, string name) where T : UnityEngine.Component
@@ -90,6 +90,21 @@ namespace WanderingEarth
             {
                 item.SetActive(show);
             }
+        }
+
+        public static T AddComponentIfNotExist<T>(GameObject go) where T : Component
+        {
+            if (go == null)
+            {
+                Debug.LogError("AddComponentIfNotExist param 'go' is null.");
+                return null;
+            }
+            T t = go.GetComponent<T>();
+            if (t == null)
+            {
+                t = go.AddComponent<T>();
+            }
+            return t;
         }
     }
 }

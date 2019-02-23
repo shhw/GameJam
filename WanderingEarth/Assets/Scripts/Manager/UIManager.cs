@@ -42,6 +42,9 @@ namespace WanderingEarth
 
             m_mainUI = Global.GetItem(m_Root, dlgName);
             m_mainUI.SetActive(true);
+
+            BaseUI uidialog = m_mainUI.GetComponent<BaseUI>();
+            uidialog.Init(param);
         }
 
         public void Close(string dlgName)
