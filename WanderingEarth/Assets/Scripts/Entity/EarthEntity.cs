@@ -34,17 +34,12 @@ namespace WanderingEarth
 
         void Update()
         {
-            Vector2 sideDir = SideDirection - Vector2.right;
-            sideDir = new Vector2(this.transform.right.x, this.transform.right.y) + sideDir;
             if (Input.GetKey(KeyCode.A))
-            {
-                thisRb2D.AddForce(sideDir * new Vector2(-1, 1) * SideForce);
-            }
+                OnAddSideForce(true);
             else if (Input.GetKey(KeyCode.D))
-            {
-                thisRb2D.AddForce(sideDir * 1 * SideForce);
-            }
+                OnAddSideForce(false);
         }
+
 
         public Vector2 GetEarthPosition()
         {
@@ -60,5 +55,20 @@ namespace WanderingEarth
         {
             thisRb2D.AddForce(force);
         }
+
+        public void OnAddSideForce(bool bLeft)
+        {
+            Vector2 sideDir = SideDirection - Vector2.right;
+            sideDir = new Vector2(this.transform.right.x, this.transform.right.y) + sideDir;
+            if (bLeft)
+            {
+                thisRb2D.AddForce(sideDir * new Vector2(-1, 1) * SideForce);
+            }
+            else
+            {
+                thisRb2D.AddForce(sideDir * 1 * SideForce);
+            }
+        }
+
     }
 }
