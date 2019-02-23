@@ -26,10 +26,10 @@ namespace WanderingEarth
         {
             planets = new List<GameObject>();
             planetsPool = new List<GameObject>();
-            GameObject obj = GameObject.Find("PlanetNodes");
             for (int i=0;i<planetCount;++i)
             {
-                GameObject planet = Instantiate(obj);
+                GameObject planet = Instantiate(orgPlanet);
+                planet.transform.parent = planetNode.transform;
                 planet.SetActive(false);
                 planetsPool.Add(planet);
             }
