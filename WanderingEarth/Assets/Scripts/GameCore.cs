@@ -24,7 +24,7 @@ namespace WanderingEarth
             EventManager.GetInstance().Init();
             UIManager.GetInstance().Init();
             SceneManager.GetInstance().Init();
-            //PlanetManager.GetInstance().Init();
+            PlanetManager.GetInstance().Init();
             ControlManager.GetInstance().Init();
             EnemyManager.GetInstance().Init();
             EffectManager.GetInstance().Init();

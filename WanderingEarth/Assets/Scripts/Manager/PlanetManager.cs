@@ -25,7 +25,7 @@ namespace WanderingEarth
             planets = new List<GameObject>();
             planetsPool = new List<GameObject>();
             GameObject planetNode=GameObject.Find("PlanetNodes");
-            GameObject orgPlanet=(GameObject)Resources.Load("planet/planet");
+            GameObject orgPlanet=Resources.Load<GameObject>("Prefabs/planet/planet");
             for (int i=0;i<planetCount;++i)
             {
                 GameObject planet = Instantiate(orgPlanet);
@@ -37,7 +37,10 @@ namespace WanderingEarth
 
         public override void Final()
         {
-            
+            foreach (GameObject planet in planets)
+                GameObject.Destroy(planet);
+            foreach (GameObject planet in planetsPool)
+                GameObject.Destroy(planet);
         }
 
         public Vector2 GetPlanetsForce(Vector2 earthPos, float earthMass)
