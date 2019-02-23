@@ -12,6 +12,8 @@ namespace WanderingEarth
     /// </summary>
     class PlanetManager : BaseManager<PlanetManager>
     {
+        public GameObject planetNode;
+        public GameObject orgPlanet;
         public List<GameObject> planets;
         public List<GameObject> planetsPool;
         public int planetCount=5;
