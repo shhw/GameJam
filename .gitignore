@@ -1,8 +1,10 @@
 # Dirs
+WanderingEarth/.vs/
 WanderingEarth/Logs/
 WanderingEarth/Temp/
 WanderingEarth/Library/
 WanderingEarth/Packages/
+WanderingEarth/obj/
 
 #
 *.csproj
