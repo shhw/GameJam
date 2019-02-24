@@ -15,10 +15,10 @@ namespace WanderingEarth
         public List<GameObject> planets;
         public List<GameObject> planetsPool;
         public int planetCount=9;
-        public float maxMass = 30;
+        public float maxMass = 20;
         public float minMass = 5;
-        public float maxRho = 0.06f;
-        public float minRho = 0.05f;
+        public float maxRho = 0.1f;
+        public float minRho = 0.01f;
 
         public override void Init()
         {
