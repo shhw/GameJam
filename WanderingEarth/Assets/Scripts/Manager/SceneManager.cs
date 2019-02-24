@@ -20,12 +20,15 @@ namespace WanderingEarth
         private List<GameObject> scenes;
         private List<GameObject> scenesPool;
 
+        private Vector2 curVelocity;
+        private Vector2 prePlanetPos;
+
         private int sceneCount = 9;
         private int _centerX = 0;
         private int _centerY = 0;
         private float _halfLength = 14;
 
-        int _MaxSize = 6;
+        int _MaxSize = 8;
 
         int _xMin;
         int _yMin;
@@ -36,6 +39,11 @@ namespace WanderingEarth
         int MIN_Y = -10000;
         int MAX_X = 10000;
         int MAX_Y = 10000;
+
+        int MinPawnX = 5;
+        int MaxPawnX = 10;
+        int MinPawnY = 200;
+        int MaxPawnY = 300;
 
         public bool gameStartFlag = false;
 
@@ -83,16 +91,58 @@ namespace WanderingEarth
             gameStartFlag = true;
         }
 
+        public void EndGame()
+        {
+            // 爆炸特效
+            UIManager.GetInstance().Show("Page_Restart");
+        }
+
         public void ResetGame()
         {
             // Reset
             gameStartFlag = false;
             InitScene();
+            InitPlanets();
+        }
+
+        public void InitPlanets()
+        {
+
         }
 
         public void SetPlanets()
         {
+            foreach (GameObject planet in PlanetManager.GetInstance().planets)
+            {
+                if (Math.Abs(GetEarthEntity().GetPosition().y - planet.transform.position.y) > 300)
+                {
+                    PlanetManager.GetInstance().HidePlanet(planet);
+                }
+            }
 
+            curVelocity = GetEarthVelocity();
+
+            int L = 0;
+            int R = 2;
+            if (prePlanetPos.x - GetEarthEntity().GetPosition().x > 0)
+            {
+                L -= 2;
+            }
+            else
+            {
+                R += 2;
+            }
+            int flag = UnityEngine.Random.Range(L, R);
+            float posX = UnityEngine.Random.Range(MinPawnX, MaxPawnX);
+            posX = flag < 1 ? -posX : posX;
+            float posY = UnityEngine.Random.Range(MinPawnX, MaxPawnX);
+
+            Vector2 posOffset = new Vector2(posX, posY);
+            Vector2 planetPos = GetEarthEntity().GetPosition() + posOffset;
+            if (planetPos.y - prePlanetPos.y < 10)
+                return;
+            PlanetManager.GetInstance().ShowPlanet(planetPos);
+            prePlanetPos = planetPos;
         }
 
         public void UpdateScenes(int newCenterX, int newCenterY)
@@ -219,6 +269,11 @@ namespace WanderingEarth
         public float GetTravelDistance()
         {
             return GetEarthEntity().GetTravelDistance();
+        }
+
+        public Vector2 GetEarthVelocity()
+        {
+            return GetEarthEntity().GetVelocityDir().normalized;
         }
     }
 }

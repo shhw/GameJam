@@ -59,6 +59,8 @@ namespace WanderingEarth
         public void ShowPlanet(Vector2 pos)
         {
             int length = planetsPool.Count();
+            if (length < 1)
+                return;
             int index = UnityEngine.Random.Range(0, length);
             GameObject planet = planetsPool[index];
             planetsPool.RemoveAt(index);

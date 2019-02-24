@@ -17,6 +17,7 @@ namespace WanderingEarth
         public float DeltaEnergy = 1.0f;
         float CurEnergy;
 
+
         public float FireScale = 1.5f;
 
         public float BaseSpeed = 1.0f;
@@ -80,7 +81,6 @@ namespace WanderingEarth
                         ForceState[n].FireObj.localScale = Vector3.Lerp(ForceState[n].FireObj.localScale,
                             Vector3.one, Time.deltaTime);
                     }
-                    Debug.Log(ForceState[n].TargetForce);
                 }
                 ForceState[n].FireObj.localScale = Vector3.Lerp(ForceState[n].FireObj.localScale,
                   ForceState[n].TargetForce > 0 ?
@@ -123,7 +123,7 @@ namespace WanderingEarth
             thisRb2D.AddForce(force);
 
             force.Normalize();
-            Debug.DrawLine(transform.position, transform.position + new Vector3(force.x, force.y));
+            //Debug.DrawLine(transform.position, transform.position + new Vector3(force.x, force.y));
 
             Vector2 vec = thisRb2D.velocity;
             vec.Normalize();
@@ -207,7 +207,6 @@ namespace WanderingEarth
                 ForceState[n].FireObj = transform.Find("Fire").Find("F" + n);
                 ForceState[n].FireObj.localScale = Vector3.one;
             }
-
         }
         public Vector2 GetVelocityDir()
         {
