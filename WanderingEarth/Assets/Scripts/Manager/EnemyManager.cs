@@ -35,7 +35,7 @@ namespace WanderingEarth
                 GameObject.Destroy(enemy);
         }
 
-        public void ShowEnemy(Vector2 pos)
+        public void ShowEnemy(Vector2 pos, float coffi)
         {
             int length = enemysPool.Count();
             if (length < 1)
@@ -45,6 +45,7 @@ namespace WanderingEarth
             enemysPool.RemoveAt(index);
             enemy.SetActive(true);
             enemy.transform.position = new Vector3(pos.x, pos.y, 0);
+            enemy.GetComponent<EnemyEntity>().ResetSpeed(coffi);
             enemys.Add(enemy);
         }
 

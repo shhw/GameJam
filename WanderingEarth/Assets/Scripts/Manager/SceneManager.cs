@@ -194,9 +194,9 @@ namespace WanderingEarth
                 R += 2;
             }
             int flag = UnityEngine.Random.Range(L, R);
-            float posX = UnityEngine.Random.Range(MinPawnX, MaxPawnX);
+            float posX = UnityEngine.Random.Range(0, MaxPawnX);
             posX = flag < 1 ? -posX : posX;
-            float posY = UnityEngine.Random.Range(MinPawnX, MaxPawnX);
+            float posY = UnityEngine.Random.Range(0, MaxPawnX);
 
             Vector2 posOffset = new Vector2(posX, posY);
             Vector2 planetPos = GetEarthEntity().GetPosition() + posOffset;
@@ -236,7 +236,7 @@ namespace WanderingEarth
             Vector2 planetPos = GetEarthEntity().GetPosition() + posOffset;
             if (planetPos.y - prePlanetPos.y < 5)
                 return;
-            EnemyManager.GetInstance().ShowEnemy(planetPos);
+            EnemyManager.GetInstance().ShowEnemy(planetPos,flag<1?-1:1);
             prePlanetPos = planetPos;
         }
 
