@@ -7,7 +7,7 @@ namespace WanderingEarth
     /// </summary>
     public class Utility
     {
-        public static float K = 15.0f;
+        public static float K = 5.0f;
 
         public static Vector2 GetAttractiveForce(Vector2 distanceVector, float earthMass, float planetMass)
         {

@@ -12,10 +12,14 @@ namespace WanderingEarth
     /// </summary>
     class ItemEntity : BaseEntity
     {
-        public float speed = 10;
-        void Start()
+        public float speed = 1;
+        private Rigidbody2D R2D;
+        public void ResetSpeed()
         {
-            GetComponent<Rigidbody2D>().velocity = Vector2.down * speed;
+            if(R2D == null)
+                R2D = GetComponent<Rigidbody2D>();
+            R2D.velocity = UnityEngine.Random.Range(1f, 3f)*Vector2.down;
+            R2D.angularVelocity = UnityEngine.Random.Range(100f, 300f);
         }
     }
 }

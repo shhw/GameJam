@@ -23,7 +23,7 @@ namespace WanderingEarth
             GameObject enemy = Instantiate(obj);
             GameObject enemyNodes = GameObject.Find("EnemyNodes");
             enemy.transform.parent = enemyNodes.transform;
-            enemy.transform.position = new Vector3(50, 50, 0);
+            enemy.SetActive(false);
             enemysPool.Add(enemy);
         }
 
