@@ -115,6 +115,8 @@ namespace WanderingEarth
             boomObject.transform.position = GetEarthEntity().GetPosition();
             boomObject.SetActive(true);
 
+            AudioManager.GetInstance().Play("boom");
+
             StartCoroutine(WaitToShow(0.5f));
         }
 
@@ -220,7 +222,7 @@ namespace WanderingEarth
             for (int i = 0; i < EnemyManager.GetInstance().enemys.Count; ++i)
             {
                 GameObject enemy = EnemyManager.GetInstance().enemys[i];
-                if (Math.Abs(GetEarthEntity().GetPosition().y - enemy.transform.position.y) > 50)
+                if (Math.Abs(GetEarthEntity().GetPosition().y - enemy.transform.position.y) > 15)
                 {
                     EnemyManager.GetInstance().HideEnemy(enemy);
                 }
