@@ -12,11 +12,13 @@ namespace WanderingEarth
     /// </summary>
     class EnemyEntity : BaseEntity
     {
-        public float speed = 10;
+        public float speed = 5;
+        private Rigidbody2D R2D;
 
         void Start()
         {
-            GetComponent<Rigidbody2D>().velocity= Vector2.down * speed;
+            R2D = GetComponent<Rigidbody2D>();
+            R2D.velocity= Vector2.left * speed;
         }
         void Update()
         {
@@ -25,13 +27,15 @@ namespace WanderingEarth
 
         void CheckBarrier()
         {
-            int radius = 500;
-            Collider[] cols = Physics.OverlapSphere(this.transform.position, radius);
-            if (cols.Length > 0)
+            float radius = GetComponent<CircleCollider2D>().radius+3.0f;
+            Collider2D[] cols = Physics2D.OverlapCircleAll(this.transform.position, radius);
+            for(int i=0;i<cols.Length;++i)
             {
-                for (int i = 0; i < cols.Length; i++)
+                if (cols[i].gameObject != gameObject)
                 {
-                    Debug.Log("检测到物体" + cols[i].name);
+                    speed *= -1;
+                    R2D.velocity = Vector2.left * speed;
+                    break;
                 }
             }
         }

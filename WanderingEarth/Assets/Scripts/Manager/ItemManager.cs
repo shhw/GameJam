@@ -38,6 +38,8 @@ namespace WanderingEarth
         {
             foreach (GameObject meteorolite in meteorolites)
                 GameObject.Destroy(meteorolite);
+            foreach (GameObject meteorolite in meteorolitesPool)
+                GameObject.Destroy(meteorolite);
         }
 
         public void ShowMeteorolite(Vector2 pos)
