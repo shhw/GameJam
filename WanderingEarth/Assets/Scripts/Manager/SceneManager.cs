@@ -134,6 +134,18 @@ namespace WanderingEarth
                 PlanetManager.GetInstance().HidePlanet(planet);
             }
 
+            while (ItemManager.GetInstance().meteorolites.Count > 0)
+            {
+                GameObject meteorolite = ItemManager.GetInstance().meteorolites[0];
+                ItemManager.GetInstance().HideMeteorolite(meteorolite);
+            }
+
+            while (EnemyManager.GetInstance().enemys.Count > 0)
+            {
+                GameObject enemy = EnemyManager.GetInstance().enemys[0];
+                EnemyManager.GetInstance().HideEnemy(enemy);
+            }
+
             GetEarthEntity().Reset();
             UIManager.GetInstance().Show("Page_GameHUD");
             InitScene();
@@ -183,13 +195,19 @@ namespace WanderingEarth
 
         public void SetMeteorolites()
         {
+            List<GameObject> releasePlanets = new List<GameObject>();
             for (int i = 0; i < ItemManager.GetInstance().meteorolites.Count; ++i)
             {
-                GameObject meteorolite = ItemManager.GetInstance().meteorolites[i];
-                if (Math.Abs(GetEarthEntity().GetPosition().y - meteorolite.transform.position.y) > 50)
+                GameObject planet = ItemManager.GetInstance().meteorolites[i];
+                if (Math.Abs(GetEarthEntity().GetPosition().y - planet.transform.position.y) > 50)
                 {
-                    ItemManager.GetInstance().HideMeteorolite(meteorolite);
+                    releasePlanets.Add(planet);
                 }
+            }
+
+            for (int i = 0; i < releasePlanets.Count; ++i)
+            {
+                ItemManager.GetInstance().HideMeteorolite(releasePlanets[i]);
             }
 
             int L = 0;
@@ -217,13 +235,19 @@ namespace WanderingEarth
 
         public void SetEnemy()
         {
+            List<GameObject> releasePlanets = new List<GameObject>();
             for (int i = 0; i < EnemyManager.GetInstance().enemys.Count; ++i)
             {
-                GameObject enemy = EnemyManager.GetInstance().enemys[i];
-                if (Math.Abs(GetEarthEntity().GetPosition().y - enemy.transform.position.y) > 50)
+                GameObject planet = EnemyManager.GetInstance().enemys[i];
+                if (Math.Abs(GetEarthEntity().GetPosition().y - planet.transform.position.y) > 50)
                 {
-                    EnemyManager.GetInstance().HideEnemy(enemy);
+                    releasePlanets.Add(planet);
                 }
+            }
+
+            for (int i = 0; i < releasePlanets.Count; ++i)
+            {
+                EnemyManager.GetInstance().HideEnemy(releasePlanets[i]);
             }
 
             int L = 0;
