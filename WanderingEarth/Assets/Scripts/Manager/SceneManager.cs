@@ -22,6 +22,7 @@ namespace WanderingEarth
         private List<GameObject> scenesPool;
 
         private GameObject boomObject;
+        private Animator boomAnim;
 
         private Vector2 curVelocity;
         private Vector2 prePlanetPos;
@@ -54,6 +55,7 @@ namespace WanderingEarth
         {
             boomObject = GameObject.Find("Boom");
             boomObject.SetActive(false);
+            boomAnim = boomObject.GetComponent<Animator>();
 
             scenes = new List<GameObject>();
             scenesPool = new List<GameObject>();
@@ -91,6 +93,7 @@ namespace WanderingEarth
         public void InitScene()
         {
             GetEarthEntity().gameObject.SetActive(true);
+            boomObject.SetActive(false);
             ShowScene(0, 0);
             ShowScene(14, 0);
             ShowScene(0, 14);
@@ -106,8 +109,16 @@ namespace WanderingEarth
             // 爆炸特效
             boomObject.transform.position = GetEarthEntity().GetPosition();
             boomObject.SetActive(true);
-            UIManager.GetInstance().Show("Page_Restart");
+
+            StartCoroutine(WaitToShow(0.5f));
         }
+
+
+        IEnumerator WaitToShow(float waitTime)
+        {
+            yield return new WaitForSeconds(waitTime);
+            UIManager.GetInstance().Show("Page_Restart");
+        } 
 
         public void ResetGame()
         {
@@ -118,6 +129,7 @@ namespace WanderingEarth
                 PlanetManager.GetInstance().HidePlanet(planet);
             }
 
+            GetEarthEntity().Reset();
             UIManager.GetInstance().Show("Page_GameHUD");
             InitScene();
         }
