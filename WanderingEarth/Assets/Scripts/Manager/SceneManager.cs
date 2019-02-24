@@ -123,9 +123,9 @@ namespace WanderingEarth
         public void ResetGame()
         {
             // Reset
-            for (int i = 0; i < PlanetManager.GetInstance().planets.Count; ++i)
+            while(PlanetManager.GetInstance().planets.Count > 0)
             {
-                GameObject planet = PlanetManager.GetInstance().planets[i];
+                GameObject planet = PlanetManager.GetInstance().planets[0];
                 PlanetManager.GetInstance().HidePlanet(planet);
             }
 
