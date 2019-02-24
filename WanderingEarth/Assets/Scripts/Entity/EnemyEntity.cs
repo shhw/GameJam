@@ -35,8 +35,7 @@ namespace WanderingEarth
             {
                 if (cols[i].gameObject != gameObject)
                 {
-                    speed *= -1;
-                    R2D.velocity = Vector2.left * speed;
+                    R2D.velocity = R2D.velocity * (-1);
                     break;
                 }
             }
