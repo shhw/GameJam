@@ -240,13 +240,8 @@ namespace WanderingEarth
             List<GameObject> releasePlanets = new List<GameObject>();
             for (int i = 0; i < EnemyManager.GetInstance().enemys.Count; ++i)
             {
-<<<<<<< HEAD
                 GameObject planet = EnemyManager.GetInstance().enemys[i];
                 if (Math.Abs(GetEarthEntity().GetPosition().y - planet.transform.position.y) > 50)
-=======
-                GameObject enemy = EnemyManager.GetInstance().enemys[i];
-                if (Math.Abs(GetEarthEntity().GetPosition().y - enemy.transform.position.y) > 15)
->>>>>>> 6327b7a9d2b0f9452e2f22748ff75787b8c934ee
                 {
                     releasePlanets.Add(planet);
                 }
