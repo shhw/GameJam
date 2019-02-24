@@ -17,6 +17,9 @@ namespace WanderingEarth
         public float DeltaEnergy = 1.0f;
         float CurEnergy;
 
+        public float SheilTime = 1.0f;
+        float CurSheilTime = 0.0f;
+        bool bWithSheil = false;
 
         public float FireScale = 1.5f;
 
@@ -67,6 +70,11 @@ namespace WanderingEarth
 
         void Update()
         {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                OnApplySheil();
+            }
+
             for (int n = 0; n < 3; n++)
             {
                 if (ForceState[n].bAdd)
@@ -119,11 +127,23 @@ namespace WanderingEarth
             Vector2 curPos = transform.position;
             Distance += (curPos - LastPos).magnitude;
             //获取引力
-            Vector2 force = PlanetManager.GetInstance().GetPlanetsForce(curPos, thisRb2D.mass);
-            thisRb2D.AddForce(force);
+            if (bWithSheil)
+            {
+                CurSheilTime -= Time.deltaTime;
+                if (CurSheilTime <= 0)
+                {
+                    CurSheilTime = 0;
+                    bWithSheil = false;
+                }
+            }
+            else
+            {
+                Vector2 force = PlanetManager.GetInstance().GetPlanetsForce(curPos, thisRb2D.mass);
+                thisRb2D.AddForce(force);
+                //force.Normalize();
+                //Debug.DrawLine(transform.position, transform.position + new Vector3(force.x, force.y));
+            }
 
-            force.Normalize();
-            //Debug.DrawLine(transform.position, transform.position + new Vector3(force.x, force.y));
 
             Vector2 vec = thisRb2D.velocity;
             vec.Normalize();
@@ -175,6 +195,12 @@ namespace WanderingEarth
             return Distance;
         }
 
+        public void OnApplySheil()
+        {
+            bWithSheil = true;
+            CurSheilTime = SheilTime;
+        }
+
         void OnDrawGizmos()
         {
             Vector2 sideDir = Utility.Vector2Rotate(transform.up, SideDirectionRadius);
@@ -200,6 +226,8 @@ namespace WanderingEarth
             thisRb2D.velocity = Vector2.zero;
             transform.position = Vector3.zero;
             CurEnergy = MaxEnergy;
+            bWithSheil = false;
+            CurSheilTime = 0;
             for (int n = 0; n < 3; n++)
             {
                 ForceState[n].bAdd = false;
