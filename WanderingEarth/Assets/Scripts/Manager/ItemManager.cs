@@ -43,6 +43,8 @@ namespace WanderingEarth
         public void ShowMeteorolite(Vector2 pos)
         {
             int length = meteorolitesPool.Count();
+            if (length < 1)
+                return;
             int index = UnityEngine.Random.Range(0, length);
             GameObject meteorolite = meteorolitesPool[index];
             meteorolitesPool.RemoveAt(index);
