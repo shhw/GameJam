@@ -46,8 +46,8 @@ namespace WanderingEarth
 
         int MinPawnX = 5;
         int MaxPawnX = 10;
-        int MinPawnY = 200;
-        int MaxPawnY = 300;
+        int MinPawnY = 5;
+        int MaxPawnY = 10;
 
         public bool gameStartFlag = false;
 
@@ -171,7 +171,7 @@ namespace WanderingEarth
             int flag = UnityEngine.Random.Range(L, R);
             float posX = UnityEngine.Random.Range(MinPawnX, MaxPawnX);
             posX = flag < 1 ? -posX : posX;
-            float posY = UnityEngine.Random.Range(MinPawnX, MaxPawnX);
+            float posY = UnityEngine.Random.Range(MinPawnY, MaxPawnY);
 
             Vector2 posOffset = new Vector2(posX, posY);
             Vector2 planetPos = GetEarthEntity().GetPosition() + posOffset;
