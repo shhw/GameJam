@@ -35,7 +35,7 @@ namespace WanderingEarth
 
         Rigidbody2D thisRb2D;
         float Distance = 0.0f;
-        Vector2 LastPos;
+        Vector2 OrgPos;
 
         public enum ForceType
         {
@@ -64,7 +64,6 @@ namespace WanderingEarth
         void Start()
         {
             PlanetManager.GetInstance().ShowPlanet(GetPosition() + new Vector2(100, 300));
-            LastPos = transform.position;
 
             Reset();
         }
@@ -125,8 +124,6 @@ namespace WanderingEarth
                 CurEnergy = Mathf.Lerp(CurEnergy, MaxEnergy, Time.deltaTime * DeltaEnergy);
             }
 
-            Vector2 curPos = transform.position;
-            Distance += (curPos - LastPos).magnitude;
             //获取引力
             if (bWithSheil)
             {
@@ -139,7 +136,7 @@ namespace WanderingEarth
             }
             else
             {
-                Vector2 force = PlanetManager.GetInstance().GetPlanetsForce(curPos, thisRb2D.mass);
+                Vector2 force = PlanetManager.GetInstance().GetPlanetsForce(transform.position, thisRb2D.mass);
                 thisRb2D.AddForce(force);
                 //force.Normalize();
                 //Debug.DrawLine(transform.position, transform.position + new Vector3(force.x, force.y));
@@ -193,6 +190,8 @@ namespace WanderingEarth
 
         public float GetTravelDistance()
         {
+            Vector2 curPos = transform.position;
+            Distance = (curPos - OrgPos).magnitude;
             return Distance;
         }
 
@@ -233,11 +232,10 @@ namespace WanderingEarth
         public void Reset()
         {
             thisRb2D.velocity = Vector2.zero;
-            transform.position = Vector3.zero;
+            OrgPos = transform.position;
             CurEnergy = MaxEnergy;
             bWithSheil = false;
             CurSheilTime = 0;
-            CurEnergy = MaxEnergy;
             for (int n = 0; n < 3; n++)
             {
                 ForceState[n].bAdd = false;
