@@ -17,6 +17,7 @@ namespace WanderingEarth
         public float DeltaEnergy = 1.0f;
         float CurEnergy;
 
+        public int SheilCount = 1;
         public float SheilTime = 1.0f;
         float CurSheilTime = 0.0f;
         bool bWithSheil = false;
@@ -197,8 +198,12 @@ namespace WanderingEarth
 
         public void OnApplySheil()
         {
-            bWithSheil = true;
-            CurSheilTime = SheilTime;
+            if (SheilCount > 0)
+            {
+                bWithSheil = true;
+                CurSheilTime = SheilTime;
+                SheilCount--;
+            }
         }
 
         void OnDrawGizmos()
@@ -219,6 +224,10 @@ namespace WanderingEarth
                 gameObject.SetActive(false);
                 SceneManager.GetInstance().EndGame();
             }
+            else if (other.tag == "sheil")
+            {
+                SheilCount++;
+            }
         }
 
         public void Reset()
@@ -228,6 +237,7 @@ namespace WanderingEarth
             CurEnergy = MaxEnergy;
             bWithSheil = false;
             CurSheilTime = 0;
+            CurEnergy = MaxEnergy;
             for (int n = 0; n < 3; n++)
             {
                 ForceState[n].bAdd = false;
