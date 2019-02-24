@@ -13,10 +13,15 @@ namespace WanderingEarth
     [RequireComponent(typeof(Rigidbody2D), typeof(SpriteRenderer), typeof(CircleCollider2D))]
     class EarthEntity : BaseEntity
     {
+        public float MaxEnergy = 100.0f;
+        public float DeltaEnergy = 1.0f;
+        float CurEnergy;
+
+        public float FireScale = 1.5f;
+
         public float BaseSpeed = 1.0f;
         public float MaxSpeed = 10.0f;
         public float AccForce = 1.0f;
-
 
         [Range(0.0f, 1.5707963f)]
         public float SideDirectionRadius = 0.1f;
@@ -39,6 +44,8 @@ namespace WanderingEarth
             public bool bAdd;
             public float CurForce;
             public float TargetForce;
+
+            public Transform FireObj;
         }
 
         AccForceParams[] ForceState = new AccForceParams[3];
@@ -54,7 +61,7 @@ namespace WanderingEarth
             PlanetManager.GetInstance().ShowPlanet(GetPosition() + new Vector2(100, 300));
             LastPos = transform.position;
 
-            PlanetManager.GetInstance().ShowPlanet(new Vector2(10, 20));
+            Reset();
         }
 
         void Update()
@@ -62,28 +69,53 @@ namespace WanderingEarth
             for (int n = 0; n < 3; n++)
             {
                 ForceState[n].CurForce = Mathf.Lerp(ForceState[n].CurForce, ForceState[n].TargetForce, Time.deltaTime);
+                if (ForceState[n].bAdd)
+                {
+                    if (CurEnergy <= 0)
+                    {
+                        ForceState[n].bAdd = false;
+                        ForceState[n].TargetForce = 0;
+                    }
+                    else
+                    {
+                        CurEnergy -= DeltaEnergy;
+                    }
+                }
+                else
+                {
+                    ForceState[n].FireObj.localScale = Vector3.Lerp(ForceState[n].FireObj.localScale,
+                        Vector3.one, Time.deltaTime);
+                }
             }
             if (ForceState[1].bAdd)
             {
                 Vector2 sideDir = Utility.Vector2Rotate(transform.up, SideDirectionRadius);
                 sideDir.Normalize();
                 thisRb2D.AddForce(sideDir * ForceState[1].CurForce);
+                ForceState[1].FireObj.localScale = Vector3.Lerp(ForceState[1].FireObj.localScale,
+                  new Vector3(FireScale, FireScale, FireScale), Time.deltaTime);
             }
             else if (ForceState[2].bAdd)
             {
                 Vector2 psideDir = Utility.Vector2Rotate(transform.up, -SideDirectionRadius);
                 psideDir.Normalize();
                 thisRb2D.AddForce(psideDir * ForceState[2].CurForce);
+                ForceState[2].FireObj.localScale = Vector3.Lerp(ForceState[2].FireObj.localScale,
+                         new Vector3(FireScale, FireScale, FireScale), Time.deltaTime);
             }
             else if (ForceState[0].bAdd)
             {
                 thisRb2D.AddForce(new Vector2(this.transform.up.x, this.transform.up.y) * ForceState[0].CurForce);
+                ForceState[0].FireObj.localScale = Vector3.Lerp(ForceState[0].FireObj.localScale,
+                        new Vector3(FireScale, FireScale, FireScale), Time.deltaTime);
             }
             else
             {
                 Vector2 v = thisRb2D.velocity;
                 v.Normalize();
                 thisRb2D.velocity = Vector2.Lerp(thisRb2D.velocity, v * BaseSpeed, Time.deltaTime);
+                CurEnergy = Mathf.Lerp(CurEnergy, MaxEnergy, Time.deltaTime * DeltaEnergy);
+
             }
 
             Vector2 curPos = transform.position;
@@ -161,8 +193,31 @@ namespace WanderingEarth
             if (other.tag == "planet")
             {
                 gameObject.SetActive(false);
-                //SceneManager.GetInstance().
             }
+        }
+
+        public void Reset()
+        {
+            thisRb2D.velocity = Vector2.zero;
+            transform.position = Vector3.zero;
+            CurEnergy = MaxEnergy;
+            for (int n = 0; n < 3; n++)
+            {
+                ForceState[n].bAdd = false;
+                ForceState[n].CurForce = 0;
+                ForceState[n].TargetForce = 0;
+                ForceState[n].FireObj = transform.Find("Fire").Find("F" + n);
+                ForceState[n].FireObj.localScale = Vector3.one;
+            }
+
+        }
+        public Vector2 GetVelocityDir()
+        {
+            return thisRb2D.velocity;
+        }
+        public float GetCurEnergy()
+        {
+            return CurEnergy;
         }
     }
 }
