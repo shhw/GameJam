@@ -110,6 +110,8 @@ namespace WanderingEarth
             boomObject.transform.position = GetEarthEntity().GetPosition();
             boomObject.SetActive(true);
 
+            AudioManager.GetInstance().Play("boom");
+
             StartCoroutine(WaitToShow(0.5f));
         }
 
