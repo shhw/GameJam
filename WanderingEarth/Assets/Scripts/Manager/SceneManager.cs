@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,15 +21,17 @@ namespace WanderingEarth
         private List<GameObject> scenes;
         private List<GameObject> scenesPool;
 
+        private GameObject boomObject;
+
         private Vector2 curVelocity;
         private Vector2 prePlanetPos;
 
-        private int sceneCount = 9;
+        private int sceneCount = 18;
         private int _centerX = 0;
         private int _centerY = 0;
         private float _halfLength = 14;
 
-        int _MaxSize = 8;
+        int _MaxSize = 9;
 
         int _xMin;
         int _yMin;
@@ -49,6 +52,9 @@ namespace WanderingEarth
 
         public override void Init()
         {
+            boomObject = GameObject.Find("Boom");
+            boomObject.SetActive(false);
+
             scenes = new List<GameObject>();
             scenesPool = new List<GameObject>();
             sceneNodes = GameObject.Find("SceneNodes");
@@ -86,7 +92,11 @@ namespace WanderingEarth
         {
             GetEarthEntity().gameObject.SetActive(true);
             ShowScene(0, 0);
+            ShowScene(14, 0);
             ShowScene(0, 14);
+            ShowScene(14, 14);
+            ShowScene(-14, 0);
+            ShowScene(-14, 14);
             SetPlanets();
             gameStartFlag = true;
         }
@@ -94,27 +104,30 @@ namespace WanderingEarth
         public void EndGame()
         {
             // 爆炸特效
+            boomObject.transform.position = GetEarthEntity().GetPosition();
+            boomObject.SetActive(true);
             UIManager.GetInstance().Show("Page_Restart");
         }
 
         public void ResetGame()
         {
             // Reset
-            gameStartFlag = false;
+            for (int i = 0; i < PlanetManager.GetInstance().planets.Count; ++i)
+            {
+                GameObject planet = PlanetManager.GetInstance().planets[i];
+                PlanetManager.GetInstance().HidePlanet(planet);
+            }
+
+            UIManager.GetInstance().Show("Page_GameHUD");
             InitScene();
-            InitPlanets();
-        }
-
-        public void InitPlanets()
-        {
-
         }
 
         public void SetPlanets()
         {
-            foreach (GameObject planet in PlanetManager.GetInstance().planets)
+            for (int i = 0; i < PlanetManager.GetInstance().planets.Count; ++i)
             {
-                if (Math.Abs(GetEarthEntity().GetPosition().y - planet.transform.position.y) > 300)
+                GameObject planet = PlanetManager.GetInstance().planets[i];
+                if (Math.Abs(GetEarthEntity().GetPosition().y - planet.transform.position.y) > 50)
                 {
                     PlanetManager.GetInstance().HidePlanet(planet);
                 }
@@ -139,7 +152,7 @@ namespace WanderingEarth
 
             Vector2 posOffset = new Vector2(posX, posY);
             Vector2 planetPos = GetEarthEntity().GetPosition() + posOffset;
-            if (planetPos.y - prePlanetPos.y < 10)
+            if (planetPos.y - prePlanetPos.y < 30)
                 return;
             PlanetManager.GetInstance().ShowPlanet(planetPos);
             prePlanetPos = planetPos;
@@ -201,7 +214,7 @@ namespace WanderingEarth
             int localX = Math.Abs(_centerX - checkX);
             int localY = Math.Abs(_centerY - checkY);
 
-            float half = 14;
+            float half = 28;
             if (localX > half || localY > half)
             {
                 return false;
