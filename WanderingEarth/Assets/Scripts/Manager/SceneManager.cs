@@ -166,7 +166,7 @@ namespace WanderingEarth
 
             Vector2 posOffset = new Vector2(posX, posY);
             Vector2 planetPos = GetEarthEntity().GetPosition() + posOffset;
-            if (planetPos.y - prePlanetPos.y < 6)
+            if (planetPos.y - prePlanetPos.y < 5)
                 return;
             PlanetManager.GetInstance().ShowPlanet(planetPos);
             prePlanetPos = planetPos;
