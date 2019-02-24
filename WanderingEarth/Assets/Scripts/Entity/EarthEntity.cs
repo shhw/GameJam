@@ -191,6 +191,7 @@ namespace WanderingEarth
             if (other.tag == "planet")
             {
                 gameObject.SetActive(false);
+                SceneManager.GetInstance().EndGame();
             }
         }
 
