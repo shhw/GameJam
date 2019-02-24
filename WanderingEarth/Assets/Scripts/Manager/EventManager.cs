@@ -47,6 +47,11 @@ namespace WanderingEarth
             {
                 SceneManager.GetInstance().GetEarthEntity().OnCancelRightForce();
             }
+
+            if (Input.GetKeyDown("space"))
+            {
+                SceneManager.GetInstance().GetEarthEntity().OnApplySheil();
+            }
         }
 
         public override void Final()
