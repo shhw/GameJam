@@ -52,6 +52,8 @@ namespace WanderingEarth
                 scene.SetActive(false);
                 scenesPool.Add(scene);
             }
+
+            GetEarthEntity().gameObject.SetActive(false);
         }
 
         private void Update()
@@ -60,6 +62,7 @@ namespace WanderingEarth
             {
                 Vector2 pos = GetEarthEntity().GetPosition();
                 UpdateScenes((int)pos.x, (int)pos.y);
+                SetPlanets();
             }
         }
 
@@ -73,9 +76,23 @@ namespace WanderingEarth
 
         public void InitScene()
         {
+            GetEarthEntity().gameObject.SetActive(true);
             ShowScene(0, 0);
             ShowScene(0, 14);
+            SetPlanets();
             gameStartFlag = true;
+        }
+
+        public void ResetGame()
+        {
+            // Reset
+            gameStartFlag = false;
+            InitScene();
+        }
+
+        public void SetPlanets()
+        {
+
         }
 
         public void UpdateScenes(int newCenterX, int newCenterY)
@@ -142,32 +159,6 @@ namespace WanderingEarth
 
             return true;
 
-            //int localX = Math.Abs(_centerX % 14);
-            //int localY = Math.Abs(_centerY % 14);
-
-            //int half = 14 / 2;
-            //if (localX < half && localY < half)
-            //{
-            //    if (Math.Abs(_centerX) >= Math.Abs(checkX) && Math.Abs(_centerY) >= Math.Abs(checkY))
-            //        return true;
-            //}
-            //else if (localX >= half && localY < half)
-            //{
-            //    if (Math.Abs(_centerX) <= Math.Abs(checkX) && Math.Abs(_centerY) >= Math.Abs(checkY))
-            //        return true;
-            //}
-            //else if (localX < half && localY >= half)
-            //{
-            //    if (Math.Abs(_centerX) >= Math.Abs(checkX) && Math.Abs(_centerY) <= Math.Abs(checkY))
-            //        return true;
-            //}
-            //else
-            //{
-            //    if (Math.Abs(_centerX) <= Math.Abs(checkX) && Math.Abs(_centerY) <= Math.Abs(checkY))
-            //        return true;
-            //}
-
-            //return false;
         }
 
         public void ShowScene(int x, int y)
