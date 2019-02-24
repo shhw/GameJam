@@ -159,7 +159,10 @@ namespace WanderingEarth
         void OnTriggerEnter2D(Collider2D other)
         {
             if (other.tag == "planet")
+            {
                 gameObject.SetActive(false);
+                //SceneManager.GetInstance().
+            }
         }
     }
 }
