@@ -17,9 +17,10 @@ namespace WanderingEarth
         public float DeltaEnergy = 1.0f;
         float CurEnergy;
 
-        public int SheilCount = 1;
         public float SheilTime = 1.0f;
         float CurSheilTime = 0.0f;
+        public float SheilCoolDownTime = 1.0f;
+        float CurSheilCoolTime = 0;
         bool bWithSheil = false;
 
         public float FireScale = 1.5f;
@@ -53,6 +54,8 @@ namespace WanderingEarth
             public Transform FireObj;
         }
 
+        GameObject SheilObj;
+
         AccForceParams[] ForceState = new AccForceParams[3];
 
         void Awake()
@@ -64,7 +67,7 @@ namespace WanderingEarth
         void Start()
         {
             PlanetManager.GetInstance().ShowPlanet(GetPosition() + new Vector2(100, 300));
-
+            SheilObj = transform.Find("Sheil").gameObject;
             Reset();
         }
 
@@ -132,14 +135,15 @@ namespace WanderingEarth
                 {
                     CurSheilTime = 0;
                     bWithSheil = false;
+                    SheilObj.SetActive(false);
                 }
             }
             else
             {
                 Vector2 force = PlanetManager.GetInstance().GetPlanetsForce(transform.position, thisRb2D.mass);
                 thisRb2D.AddForce(force);
-                //force.Normalize();
-                //Debug.DrawLine(transform.position, transform.position + new Vector3(force.x, force.y));
+
+                CurSheilCoolTime = Mathf.Min(CurSheilCoolTime + Time.deltaTime, SheilCoolDownTime);
             }
 
 
@@ -215,14 +219,19 @@ namespace WanderingEarth
             Distance = (curPos - OrgPos).magnitude;
             return Distance;
         }
+        public float GetSheilCoolDownRate()
+        {
+            return CurSheilCoolTime / SheilCoolDownTime;
+        }
 
         public void OnApplySheil()
         {
-            if (SheilCount > 0)
+            if (CurSheilCoolTime >= SheilCoolDownTime)
             {
                 bWithSheil = true;
                 CurSheilTime = SheilTime;
-                SheilCount--;
+                CurSheilCoolTime = 0;
+                SheilObj.SetActive(true);
             }
         }
 
@@ -244,10 +253,6 @@ namespace WanderingEarth
                 gameObject.SetActive(false);
                 SceneManager.GetInstance().EndGame();
             }
-            else if (other.tag == "sheil")
-            {
-                SheilCount++;
-            }
         }
 
         public void Reset()
@@ -257,6 +262,7 @@ namespace WanderingEarth
             CurEnergy = MaxEnergy;
             bWithSheil = false;
             CurSheilTime = 0;
+            CurSheilCoolTime = SheilCoolDownTime;
             for (int n = 0; n < 3; n++)
             {
                 ForceState[n].bAdd = false;
@@ -265,6 +271,7 @@ namespace WanderingEarth
                 ForceState[n].FireObj = transform.Find("Fire").Find("F" + n);
                 ForceState[n].FireObj.localScale = Vector3.one;
             }
+            SheilObj.SetActive(false);
         }
         public Vector2 GetVelocityDir()
         {

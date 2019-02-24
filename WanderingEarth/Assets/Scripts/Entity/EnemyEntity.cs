@@ -15,11 +15,13 @@ namespace WanderingEarth
         public float speed = 5;
         private Rigidbody2D R2D;
 
-        void Start()
+        public void ResetSpeed(float coffi)
         {
-            R2D = GetComponent<Rigidbody2D>();
-            R2D.velocity= Vector2.left * speed;
+            if (R2D == null)
+                R2D = GetComponent<Rigidbody2D>();
+            R2D.velocity = UnityEngine.Random.Range(1f, 3f) * Vector2.left * coffi;
         }
+
         void Update()
         {
             CheckBarrier();
