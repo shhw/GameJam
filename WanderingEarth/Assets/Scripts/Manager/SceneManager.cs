@@ -30,7 +30,7 @@ namespace WanderingEarth
         private int sceneCount = 18;
         private int _centerX = 0;
         private int _centerY = 0;
-        private float _halfLength = 14;
+        private float _halfLength = 18;
 
         int _MaxSize = 9;
 
@@ -95,11 +95,11 @@ namespace WanderingEarth
             GetEarthEntity().gameObject.SetActive(true);
             boomObject.SetActive(false);
             ShowScene(0, 0);
-            ShowScene(14, 0);
-            ShowScene(0, 14);
-            ShowScene(14, 14);
-            ShowScene(-14, 0);
-            ShowScene(-14, 14);
+            ShowScene(18, 0);
+            ShowScene(0, 18);
+            ShowScene(18, 18);
+            ShowScene(-18, 0);
+            ShowScene(-18, 18);
             SetPlanets();
             gameStartFlag = true;
         }
@@ -213,7 +213,7 @@ namespace WanderingEarth
             {
                 for (int y = _yMin; y <= _yMax; y++)
                 {
-                    if (InArea(x, y) && x % 14 == 0 && y % 14 == 0)
+                    if (InArea(x, y) && x % 18 == 0 && y % 18 == 0)
                     {
                         ShowScene(x, y);
                     }
@@ -226,7 +226,7 @@ namespace WanderingEarth
             int localX = Math.Abs(_centerX - checkX);
             int localY = Math.Abs(_centerY - checkY);
 
-            float half = 28;
+            float half = 36;
             if (localX > half || localY > half)
             {
                 return false;
