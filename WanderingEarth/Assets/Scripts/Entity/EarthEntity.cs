@@ -68,54 +68,52 @@ namespace WanderingEarth
         {
             for (int n = 0; n < 3; n++)
             {
-                ForceState[n].CurForce = Mathf.Lerp(ForceState[n].CurForce, ForceState[n].TargetForce, Time.deltaTime);
                 if (ForceState[n].bAdd)
                 {
+                    CurEnergy = Mathf.Max(0, CurEnergy - DeltaEnergy);
+                    ForceState[n].FireObj.localScale = Vector3.Lerp(ForceState[n].FireObj.localScale,
+                        new Vector3(FireScale, FireScale, FireScale), Time.deltaTime);
+
                     if (CurEnergy <= 0)
                     {
-                        ForceState[n].bAdd = false;
                         ForceState[n].TargetForce = 0;
+                        ForceState[n].FireObj.localScale = Vector3.Lerp(ForceState[n].FireObj.localScale,
+                            Vector3.one, Time.deltaTime);
                     }
-                    else
-                    {
-                        CurEnergy -= DeltaEnergy;
-                    }
+                    Debug.Log(ForceState[n].TargetForce);
                 }
-                else
+                ForceState[n].FireObj.localScale = Vector3.Lerp(ForceState[n].FireObj.localScale,
+                  ForceState[n].TargetForce > 0 ?
+                    new Vector3(FireScale, FireScale, FireScale) :
+                    Vector3.one, Time.deltaTime);
+                ForceState[n].CurForce = Mathf.Lerp(ForceState[n].CurForce, ForceState[n].TargetForce, Time.deltaTime);
+                if (ForceState[n].TargetForce <= 0)
                 {
-                    ForceState[n].FireObj.localScale = Vector3.Lerp(ForceState[n].FireObj.localScale,
-                        Vector3.one, Time.deltaTime);
+                    Vector2 v = thisRb2D.velocity;
+                    v.Normalize();
+                    thisRb2D.velocity = Vector2.Lerp(thisRb2D.velocity, v * BaseSpeed, Time.deltaTime);
                 }
             }
+
             if (ForceState[1].bAdd)
             {
                 Vector2 sideDir = Utility.Vector2Rotate(transform.up, SideDirectionRadius);
                 sideDir.Normalize();
                 thisRb2D.AddForce(sideDir * ForceState[1].CurForce);
-                ForceState[1].FireObj.localScale = Vector3.Lerp(ForceState[1].FireObj.localScale,
-                  new Vector3(FireScale, FireScale, FireScale), Time.deltaTime);
             }
             else if (ForceState[2].bAdd)
             {
                 Vector2 psideDir = Utility.Vector2Rotate(transform.up, -SideDirectionRadius);
                 psideDir.Normalize();
                 thisRb2D.AddForce(psideDir * ForceState[2].CurForce);
-                ForceState[2].FireObj.localScale = Vector3.Lerp(ForceState[2].FireObj.localScale,
-                         new Vector3(FireScale, FireScale, FireScale), Time.deltaTime);
             }
             else if (ForceState[0].bAdd)
             {
                 thisRb2D.AddForce(new Vector2(this.transform.up.x, this.transform.up.y) * ForceState[0].CurForce);
-                ForceState[0].FireObj.localScale = Vector3.Lerp(ForceState[0].FireObj.localScale,
-                        new Vector3(FireScale, FireScale, FireScale), Time.deltaTime);
             }
             else
             {
-                Vector2 v = thisRb2D.velocity;
-                v.Normalize();
-                thisRb2D.velocity = Vector2.Lerp(thisRb2D.velocity, v * BaseSpeed, Time.deltaTime);
                 CurEnergy = Mathf.Lerp(CurEnergy, MaxEnergy, Time.deltaTime * DeltaEnergy);
-
             }
 
             Vector2 curPos = transform.position;
@@ -215,9 +213,9 @@ namespace WanderingEarth
         {
             return thisRb2D.velocity;
         }
-        public float GetCurEnergy()
+        public float GetCurEnergyRate()
         {
-            return CurEnergy;
+            return CurEnergy / MaxEnergy;
         }
     }
 }
