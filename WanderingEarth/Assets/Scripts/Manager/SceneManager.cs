@@ -79,6 +79,8 @@ namespace WanderingEarth
                 Vector2 pos = GetEarthEntity().GetPosition();
                 UpdateScenes((int)pos.x, (int)pos.y);
                 SetPlanets();
+                SetMeteorolites();
+                SetEnemy();
             }
         }
 
@@ -164,9 +166,77 @@ namespace WanderingEarth
 
             Vector2 posOffset = new Vector2(posX, posY);
             Vector2 planetPos = GetEarthEntity().GetPosition() + posOffset;
-            if (planetPos.y - prePlanetPos.y < 30)
+            if (planetPos.y - prePlanetPos.y < 6)
                 return;
             PlanetManager.GetInstance().ShowPlanet(planetPos);
+            prePlanetPos = planetPos;
+        }
+
+        public void SetMeteorolites()
+        {
+            for (int i = 0; i < ItemManager.GetInstance().meteorolites.Count; ++i)
+            {
+                GameObject meteorolite = ItemManager.GetInstance().meteorolites[i];
+                if (Math.Abs(GetEarthEntity().GetPosition().y - meteorolite.transform.position.y) > 50)
+                {
+                    ItemManager.GetInstance().HideMeteorolite(meteorolite);
+                }
+            }
+
+            int L = 0;
+            int R = 2;
+            if (prePlanetPos.x - GetEarthEntity().GetPosition().x > 0)
+            {
+                L -= 2;
+            }
+            else
+            {
+                R += 2;
+            }
+            int flag = UnityEngine.Random.Range(L, R);
+            float posX = UnityEngine.Random.Range(MinPawnX, MaxPawnX);
+            posX = flag < 1 ? -posX : posX;
+            float posY = UnityEngine.Random.Range(MinPawnX, MaxPawnX);
+
+            Vector2 posOffset = new Vector2(posX, posY);
+            Vector2 planetPos = GetEarthEntity().GetPosition() + posOffset;
+            if (planetPos.y - prePlanetPos.y < 5)
+                return;
+            ItemManager.GetInstance().ShowMeteorolite(planetPos);
+            prePlanetPos = planetPos;
+        }
+
+        public void SetEnemy()
+        {
+            for (int i = 0; i < EnemyManager.GetInstance().enemys.Count; ++i)
+            {
+                GameObject enemy = EnemyManager.GetInstance().enemys[i];
+                if (Math.Abs(GetEarthEntity().GetPosition().y - enemy.transform.position.y) > 50)
+                {
+                    EnemyManager.GetInstance().HideEnemy(enemy);
+                }
+            }
+
+            int L = 0;
+            int R = 2;
+            if (prePlanetPos.x - GetEarthEntity().GetPosition().x > 0)
+            {
+                L -= 2;
+            }
+            else
+            {
+                R += 2;
+            }
+            int flag = UnityEngine.Random.Range(L, R);
+            float posX = UnityEngine.Random.Range(MinPawnX, MaxPawnX);
+            posX = flag < 1 ? -posX : posX;
+            float posY = UnityEngine.Random.Range(MinPawnX, MaxPawnX);
+
+            Vector2 posOffset = new Vector2(posX, posY);
+            Vector2 planetPos = GetEarthEntity().GetPosition() + posOffset;
+            if (planetPos.y - prePlanetPos.y < 5)
+                return;
+            EnemyManager.GetInstance().ShowEnemy(planetPos);
             prePlanetPos = planetPos;
         }
 

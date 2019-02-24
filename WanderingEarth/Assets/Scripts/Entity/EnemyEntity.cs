@@ -27,7 +27,7 @@ namespace WanderingEarth
 
         void CheckBarrier()
         {
-            float radius = GetComponent<CircleCollider2D>().radius+3.0f;
+            float radius = GetComponent<CircleCollider2D>().radius+1.0f;
             Collider2D[] cols = Physics2D.OverlapCircleAll(this.transform.position, radius);
             for(int i=0;i<cols.Length;++i)
             {

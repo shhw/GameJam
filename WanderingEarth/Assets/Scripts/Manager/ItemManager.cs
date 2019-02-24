@@ -29,8 +29,7 @@ namespace WanderingEarth
             obj = Resources.Load<GameObject>("Prefabs/meteorolites/2");
             meteorolite = Instantiate(obj);
             meteorolite.transform.parent = meteoroliteNode.transform;
-            //meteorolite.SetActive(false);
-            meteorolite.transform.position = new Vector3(100, 50, 0);
+            meteorolite.SetActive(false);
             meteorolitesPool.Add(meteorolite);
         }
 
@@ -52,10 +51,11 @@ namespace WanderingEarth
             meteorolitesPool.RemoveAt(index);
             meteorolite.SetActive(true);
             meteorolite.transform.position = new Vector3(pos.x, pos.y, 0);
+            meteorolite.GetComponent<ItemEntity>().ResetSpeed();
             meteorolites.Add(meteorolite);
         }
 
-        public void HidePlanet(GameObject meteorolite)
+        public void HideMeteorolite(GameObject meteorolite)
         {
             for (int i = 0; i < meteorolites.Count(); ++i)
             {
