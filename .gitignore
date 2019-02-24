@@ -9,4 +9,4 @@ WanderingEarth/obj/
 #
 *.csproj
 *.sln
-./WanderingEarth/ProjectSettings/ProjectVersion.txt
+WanderingEarth/ProjectSettings/ProjectVersion.txt
