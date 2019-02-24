@@ -42,11 +42,36 @@ namespace WanderingEarth
             audioClipDic.Add("speed", Resources.Load<AudioClip>("Audio/speed"));
         }
 
+        private void Update()
+        {
+            if(!soundSource.isPlaying)
+            {
+                playingAudio.Clear();
+            }
+        }
+
         public void Play(string name)
         {
             AudioClip audio;
             audioClipDic.TryGetValue(name, out audio);
+
+            for (int i = 0; i < playingAudio.Count(); ++i)
+            {
+                if (playingAudio[i] == audio)
+                {
+                    return;
+                }
+            }
+
             soundSource.PlayOneShot(audio);
+            playingAudio.Add(audio);
+        }
+
+        public void Stop()
+        {
+            playingAudio.Clear();
+
+            soundSource.Stop();
         }
 
         public override void Final()

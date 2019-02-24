@@ -157,35 +157,56 @@ namespace WanderingEarth
 
         public void OnAddLeftForce()
         {
+            if (!SceneManager.GetInstance().GetGameFlag())
+            {
+                return;
+            }
+
             ForceState[1].bAdd = true;
             ForceState[1].TargetForce = AccForce;
+            AudioManager.GetInstance().Play("fire");
         }
         public void OnCancelLeftForce()
         {
             ForceState[1].bAdd = false;
             ForceState[1].TargetForce = 0;
+            AudioManager.GetInstance().Stop();
         }
 
         public void OnAddRightForce()
         {
+            if (!SceneManager.GetInstance().GetGameFlag())
+            {
+                return;
+            }
+
             ForceState[2].bAdd = true;
             ForceState[2].TargetForce = AccForce;
+            AudioManager.GetInstance().Play("fire");
         }
         public void OnCancelRightForce()
         {
             ForceState[2].bAdd = false;
             ForceState[2].TargetForce = 0;
+            AudioManager.GetInstance().Stop();
         }
 
         public void OnAddForwardForce()
         {
+            if (!SceneManager.GetInstance().GetGameFlag())
+            {
+                return;
+            }
+             
             ForceState[0].bAdd = true;
             ForceState[0].TargetForce = AccForce;
+            AudioManager.GetInstance().Play("fire");
         }
         public void OnCancelForwardForce()
         {
             ForceState[0].bAdd = false;
             ForceState[0].TargetForce = 0;
+            AudioManager.GetInstance().Stop();
         }
 
         public float GetTravelDistance()

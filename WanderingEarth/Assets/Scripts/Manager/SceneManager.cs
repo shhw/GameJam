@@ -103,12 +103,15 @@ namespace WanderingEarth
             ShowScene(-18, 0);
             ShowScene(-18, 18);
             SetPlanets();
-            gameStartFlag = true;
+            SetGameStart(true);
         }
 
         public void EndGame()
         {
             // 爆炸特效
+            SetGameStart(false);
+            AudioManager.GetInstance().Stop();
+
             boomObject.transform.position = GetEarthEntity().GetPosition();
             boomObject.SetActive(true);
 
