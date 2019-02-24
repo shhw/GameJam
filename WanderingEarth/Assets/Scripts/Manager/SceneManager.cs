@@ -141,13 +141,19 @@ namespace WanderingEarth
 
         public void SetPlanets()
         {
+            List<GameObject> releasePlanets = new List<GameObject>();
             for (int i = 0; i < PlanetManager.GetInstance().planets.Count; ++i)
             {
                 GameObject planet = PlanetManager.GetInstance().planets[i];
                 if (Math.Abs(GetEarthEntity().GetPosition().y - planet.transform.position.y) > 50)
                 {
-                    PlanetManager.GetInstance().HidePlanet(planet);
+                    releasePlanets.Add(planet);
                 }
+            }
+
+            for (int i = 0; i < releasePlanets.Count; ++i)
+            {
+                PlanetManager.GetInstance().HidePlanet(releasePlanets[i]);
             }
 
             curVelocity = GetEarthVelocity();
